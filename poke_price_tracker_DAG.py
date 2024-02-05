@@ -336,8 +336,6 @@ def transform():
     expected_duplicated_values = 0
     assert df.duplicated().sum() == expected_duplicated_values, f"duplicated values has been found in column(s): {df[df.duplicated(keep=False)]}"
 
-
-    
     # Nombre colonnes dataframes
     assert df.columns.__len__() == 7, f"Invalid number of columns. Expected {7}, got {df.columns.__len__()}"
 
