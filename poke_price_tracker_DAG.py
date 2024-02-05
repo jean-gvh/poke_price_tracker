@@ -301,6 +301,35 @@ def transform():
     df['bids_numbers'] = df['bids_numbers'].fillna(0)
 
     df.dropna(inplace=True)
+
+    # Checker 
+        # Data type
+        # Nombre colonnes dataframes
+        # Nombre lignes dataframes
+        # Regarder si le contenu des colonnes est cohérent ( nom des cartes, formattage de la date,etc...)
+    
+    # Data type
+    expected_dtypes = {
+        'col1': 'object',
+        'col2': 'float64',
+        'col3': 'datetime64[ns]',
+        'col4': 'object',
+        'col5': 'int32',
+        'col6': 'float64',
+        'col7': 'float64'
+        # Ajoutez d'autres colonnes et types de données au besoin
+    }
+
+    for col, expected_dtype in expected_dtypes.items():
+        assert str(df[col].dtype) == expected_dtype, f"Invalid data type for column {col}. Expected {expected_dtype}, got {df[col].dtype}"
+    
+    # Nombre colonnes dataframes
+    assert df.columns.__len__() == 7, f"Invalid number of columns. Expected {7}, got {df.columns.__len__()}"
+
+
+    
+    
+
     
     
     #Identifie le bucket cible
