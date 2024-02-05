@@ -351,14 +351,6 @@ def transform():
    
     # Verifier que le format du df correspond au format  du df attendu
     assert all(df['sold_date'] == df['sold_date_expected']), f"Invalid date format in 'sold_date' column {df['sold_date'].dtype}"
-
-
-
-
-    
-    
-
-    
     
     #Identifie le bucket cible
     bucket = storage.Bucket(client, bucket_name)
@@ -371,15 +363,6 @@ def transform():
     # Path of the local file
     bucket.blob('clean_data/clean_data.csv').upload_from_string(df.to_csv(index=False), 'text/csv')
 
-
-
-
-# Ajouter fonction qui check la qualité du dataframes crée avec les données nettoyés
-# Checker 
-        # Data type
-        # Nombre colonnes dataframes
-        # Nombre lignes dataframes
-        # Regarder si le contenu des colonnes est cohérent ( nom des cartes, formattage de la date,etc...)
 
 #Récupère le fichier .csv contenant les données nettoyées et vérifie si il y a de nouvelles données en filtrant la date
     # Si noouvelles données, exporte les nouvelles données en csv et utilise xcom 
@@ -595,11 +578,11 @@ def split_data_to_MySql_db():
     # Créer la connexion à la base de données
     try:
         conn = connector.connect(
-            "fiery-iridium-412613:europe-west9:poke-price-tracker-db",
+            "gcp_project_id",
             "pymysql",
-            user="root",
-            password="Tictact0c",
-            db="ebay"
+            user="db_user_name",
+            password="db_password",
+            db="db_name"
         )
         logging.info("Connexion à la base de données réussie")
     except:
