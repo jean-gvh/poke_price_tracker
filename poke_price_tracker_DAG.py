@@ -288,6 +288,9 @@ def transform():
     # Convertir la colonne 'sold_date' en type datetime si nécessaire
     df['sold_date'] = pd.to_datetime(df['sold_date'], format="%d %b %Y",errors='coerce')
 
+
+    # Supprimer les lignes ou la location est != de null. En effet une valeur dans cette colonne veut dire que
+    # que la carte provient d'un pays autre que la France. La valeur par défautde provenance (soit la france) est mise à null.
     df = df.loc[df['sold_location'].isnull()]
 
     df.drop(columns='sold_location',inplace=True)
@@ -304,6 +307,7 @@ def transform():
 
     # Checker 
         # Data type
+        # null values check
         # Nombre colonnes dataframes
         # Nombre lignes dataframes
         # Regarder si le contenu des colonnes est cohérent ( nom des cartes, formattage de la date,etc...)
@@ -322,6 +326,10 @@ def transform():
 
     for col, expected_dtype in expected_dtypes.items():
         assert str(df[col].dtype) == expected_dtype, f"Invalid data type for column {col}. Expected {expected_dtype}, got {df[col].dtype}"
+
+     # null values check
+    expected_null_values = 0
+    assert df.isnull().sum() == expected_null_values, f"null values has been found in column(s): {df.columns[df.isna().any()]}"
     
     # Nombre colonnes dataframes
     assert df.columns.__len__() == 7, f"Invalid number of columns. Expected {7}, got {df.columns.__len__()}"
@@ -332,10 +340,12 @@ def transform():
     # Checker le format de la date 
     
     expected_format = "%d %b %Y"
-    df['sold_date_expected'] = pd.to_datetime(df['sold_date'], format=expected_format, errors='coerce').dt.strftime(expected_format)
+    df['sold_date_expected'] = df['sold_date'].dt.strftime(expected_format)
    
     # Verifier que le format du df correspond au format  du df attendu
     assert all(df['sold_date'] == df['sold_date_expected']), f"Invalid date format in 'sold_date' column {df['sold_date'].dtype}"
+
+
 
 
     
