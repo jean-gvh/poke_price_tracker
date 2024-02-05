@@ -329,6 +329,15 @@ def transform():
     # Nombre lignes dataframes : changer ce code quand de nouvelles cartes seront ajoutées
     assert df.__len__() < 2000, f"Too many rows, got {df.__len__()}"
 
+    # Checker le format de la date 
+    
+    expected_format = "%d %b %Y"
+    df['sold_date_expected'] = pd.to_datetime(df['sold_date'], format=expected_format, errors='coerce').dt.strftime(expected_format)
+   
+    # Verifier que le format du df correspond au format  du df attendu
+    assert all(df['sold_date'] == df['sold_date_expected']), f"Invalid date format in 'sold_date' column {df['sold_date'].dtype}"
+
+
     
     
 
