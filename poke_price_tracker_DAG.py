@@ -305,11 +305,12 @@ def transform():
 
     df.dropna(inplace=True)
 
-    # Checker 
-        # Data type
+    # TO DO 
+        # Data type check
         # null values check
-        # Nombre colonnes dataframes
-        # Nombre lignes dataframes
+        # duplicated values check
+        # df.colummns check
+        # df.__len__ check
         # Regarder si le contenu des colonnes est cohérent ( nom des cartes, formattage de la date,etc...)
     
     # Data type
@@ -327,9 +328,15 @@ def transform():
     for col, expected_dtype in expected_dtypes.items():
         assert str(df[col].dtype) == expected_dtype, f"Invalid data type for column {col}. Expected {expected_dtype}, got {df[col].dtype}"
 
-     # null values check
+    # null values check
     expected_null_values = 0
     assert df.isnull().sum() == expected_null_values, f"null values has been found in column(s): {df.columns[df.isna().any()]}"
+
+    # duplicated values check 
+    expected_duplicated_values = 0
+    assert df.duplicated().sum() == expected_duplicated_values, f"duplicated values has been found in column(s): {df[df.duplicated(keep=False)]}"
+
+
     
     # Nombre colonnes dataframes
     assert df.columns.__len__() == 7, f"Invalid number of columns. Expected {7}, got {df.columns.__len__()}"
