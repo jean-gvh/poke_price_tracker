@@ -326,6 +326,8 @@ def transform():
     # Nombre colonnes dataframes
     assert df.columns.__len__() == 7, f"Invalid number of columns. Expected {7}, got {df.columns.__len__()}"
 
+    # Nombre lignes dataframes : changer ce code quand de nouvelles cartes seront ajoutées
+    assert df.__len__() < 2000, f"Too many rows, got {df.__len__()}"
 
     
     
