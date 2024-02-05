@@ -5,6 +5,12 @@
 If you want to **know more** about the **project** and its **goals**, **read** this **[article](https://jeanguinvarch.wixsite.com/jean-guinvarch-s-por/s-projects-side-by-side)** I have written ! 
 https://jeanguinvarch.wixsite.com/jean-guinvarch-s-por/s-projects-side-by-side
 
+### My Socials:
+* [linkedin](https://www.linkedin.com/in/jean-guinvarch-80b35620a/)
+* [medium](https://medium.com/@jean_gvh)
+* [soundcloud](https://soundcloud.com/diligencexs)
+* [email](jean.guinvarch@gmail.com)
+
 # Purposes
 **Primary objectives** of this project was to systematically **collect eBay auction sales data**,
 
@@ -47,4 +53,7 @@ In order to build a completly autonomous data pipeline, a coherent data stack is
 ###  Orchestration
 
 * All these **steps** are **exectuting** in the **cloud** thanks to **Apache Airflow** ( Composer on GCP)​
+
+# Thank you for reading !
+
 
