@@ -4,6 +4,7 @@ import requests
 import logging
 
 # Libraries for Data Processing
+import csv
 import pandas as pd 
 from unidecode import unidecode
 from datetime import datetime, timedelta
@@ -24,6 +25,9 @@ from google.cloud.sql.connector import Connector
 import sqlalchemy 
 
 # VARIABLES GLOBALES
+
+# Sera remplacé par la liste avec tous lees noms des pokémons
+
 pokemon_name_list = """
     pingoleon+v+146%2F163,
     dracaufeu+ex+199%2F165,
@@ -68,6 +72,33 @@ mysql_conn_id = 'mysql_db_ebay_con'
 
 # Créer la connexion avec la page web
 # Retourne une liste
+
+
+def get_pokemon_name_list():
+   
+    """Utiliser pour récupréer la liste de tous les noms des cartes pokémons
+
+    Returns:
+        List : List python avec les noms des pokémons pret pour insertion dans la fonction de scrapping
+    """ 
+
+    object_name2 = 'pokemon_names_data/pokemon_names.csv'
+    bucket = client.get_bucket(bucket_base_data)
+    blob = bucket.blob(object_name2)
+    csv_content = blob.download_as_text() 
+        
+
+
+    data_list = []
+
+    csv_reader = csv.reader(csv_content.splitlines())
+    for row in csv_reader:
+        data_list.append(row)
+
+    # Aplatir la liste imbriquée
+    flat_list = [item for sublist in data_list for item in sublist]
+
+    return flat_list
 
 def get_data():
     soup_list = []
