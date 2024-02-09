@@ -205,7 +205,7 @@ def card_name_formatting(df : pd.DataFrame):
 def set_bloc_name_attribution(clean_data_df: pd.DataFrame):
 
     # récupération du .csv contenant les infos des sets + blocs pokemons
-    object_name2 = 'pokemons_sets_data/pokemon_set_formatted.csv'
+    object_name2 = 'pokemons_sets_data/all_pokemon_set_formatted.csv'
     bucket = client.get_bucket(bucket_base_data)
     blob = bucket.blob(object_name2)
     content = blob.download_as_text() 
@@ -353,6 +353,7 @@ def transform():
         'col5': 'int32',
         'col6': 'float64',
         'col7': 'float64'
+        'col'
         # Ajoutez d'autres colonnes et types de données au besoin
     }
 
