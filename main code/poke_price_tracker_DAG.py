@@ -201,6 +201,37 @@ def card_name_formatting(df : pd.DataFrame):
 
     return df
 
+
+def set_bloc_name_attribution(clean_data_df: pd.DataFrame):
+
+    # récupération du .csv contenant les infos des sets + blocs pokemons
+    object_name2 = 'pokemons_sets_data/pokemon_set_formatted.csv'
+    bucket = client.get_bucket(bucket_base_data)
+    blob = bucket.blob(object_name2)
+    content = blob.download_as_text() 
+    pokemon_set_df = pd.read_csv(StringIO(content)) 
+    
+    # Core de la fonction
+    pokemon_set_df['bloc_ID'] = pd.factorize(pokemon_set_df['bloc_name'])[0].astype('int64') + 1
+    pokemon_set_df['set_ID'] = pd.factorize(pokemon_set_df['set_name'])[0].astype('int64') + 1
+
+    for pokemon_name in clean_data_df['card_name'].unique():
+        # Sélectionner les lignes correspondant au nom de la carte dans pokemon_set_df
+        pokemon_info = pokemon_set_df[pokemon_set_df['card_name'] == pokemon_name]
+        if not pokemon_info.empty:
+            # Extraire le nom du bloc et de la série associés à la carte
+            bloc_ID = pokemon_info['bloc_ID'].iloc[0]
+            set_ID = pokemon_info['set_ID'].iloc[0]
+            # Mettre à jour clean_data_df avec les informations extraites
+            clean_data_df.loc[clean_data_df['card_name'] == pokemon_name, 'bloc_ID'] = bloc_ID
+            clean_data_df.loc[clean_data_df['card_name'] == pokemon_name, 'set_ID'] = set_ID
+    
+    
+    clean_data_df['bloc_ID'] = clean_data_df['bloc_ID'].astype('int64')
+    clean_data_df['set_ID'] = clean_data_df['set_ID'].astype('int64')
+
+    
+    return clean_data_df
 # Applique différentes transformations au dataframe de données bruts
 
 def transform():
@@ -465,6 +496,8 @@ def data_update():
     # Concaténation des données anciennes et nouvelles et mapping des max reviews
     base_data_df = pd.read_csv(StringIO(content)) 
     base_data_df = base_data_df.loc[base_data_df['sold_date'] != date_today]
+    
+    base_data_df_data_df = set_bloc_name_attribution(old_data_df,pokemon_set_df)
 
 
     full_data_df = pd.concat([base_data_df, new_data_df], ignore_index=True) 
@@ -523,7 +556,7 @@ def data_split():
     #ebay_seller_df.drop_duplicates(inplace=True)
     
     # Création du dataframe contenant les infos de la carte pokemon 
-    pokemon_card_df = new_data_df[['card_ID','card_name']].copy()
+    pokemon_card_df = new_data_df[['card_ID','card_name','set_ID','bloc_ID']].copy()
     pokemon_card_df.drop(columns='card_ID',inplace=True)
     #pokemon_card_df.drop_duplicates(inplace=True)
 
