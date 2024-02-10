@@ -630,7 +630,7 @@ def getconn():
         "pymysql",
         user="root",
         password="Tictact0c",
-        db="ebay"
+        db="ebay_test"
     )
     return conn
 
@@ -649,11 +649,11 @@ def split_data_to_MySql_db():
     # Créer la connexion à la base de données
     try:
         conn = connector.connect(
-            "gcp_project_id",
+            "fiery-iridium-412613:europe-west9:poke-price-tracker-db",
             "pymysql",
-            user="db_user_name",
-            password="db_password",
-            db="db_name"
+            user="root",
+            password="Tictact0c",
+            db="ebay"
         )
         logging.info("Connexion à la base de données réussie")
     except:
