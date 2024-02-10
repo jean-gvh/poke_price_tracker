@@ -379,44 +379,7 @@ def transform():
         # df.__len__ check
         # Regarder si le contenu des colonnes est cohérent ( nom des cartes, formattage de la date,etc...)
     
-    '''# Data type
-    expected_dtypes = {
-        'col1': 'object',
-        'col2': 'float64',
-        'col3': 'datetime64[ns]',
-        'col4': 'object',
-        'col5': 'int32',
-        'col6': 'float64',
-        'col7': 'float64',
-        'col8': 'int64',
-        'col9': 'int64',
-        # Ajoutez d'autres colonnes et types de données au besoin
-    }
-
-    for col, expected_dtype in expected_dtypes.items():
-        assert str(df[col].dtype) == expected_dtype, f"Invalid data type for column {col}. Expected {expected_dtype}, got {df[col].dtype}"'''
-
-    '''# null values check
-    expected_null_values = 0
-    assert df.isnull().sum() == expected_null_values, f"null values has been found in column(s): {df.columns[df.isna().any()]}"
-
-    # duplicated values check 
-    expected_duplicated_values = 0
-    assert df.duplicated().sum() == expected_duplicated_values, f"duplicated values has been found in column(s): {df[df.duplicated(keep=False)]}"
-
-    # Nombre colonnes dataframes
-    assert df.columns.__len__() == 7, f"Invalid number of columns. Expected {7}, got {df.columns.__len__()}"
-
-    # Nombre lignes dataframes : changer ce code quand de nouvelles cartes seront ajoutées
-    assert df.__len__() < 2000, f"Too many rows, got {df.__len__()}"
-
-    # Checker le format de la date 
-    
-    expected_format = "%d %b %Y"
-    df['sold_date_expected'] = df['sold_date'].dt.strftime(expected_format)
-   
-    # Verifier que le format du df correspond au format  du df attendu
-    assert all(df['sold_date'] == df['sold_date_expected']), f"Invalid date format in 'sold_date' column {df['sold_date'].dtype}"'''
+    df = set_bloc_name_attribution(df)
     
     #Identifie le bucket cible
     bucket = storage.Bucket(client, bucket_name)
@@ -519,7 +482,7 @@ def data_update():
 
     # Récupération des données de base 
 
-    object_name2 = 'base_data/old_data.csv'
+    object_name2 = 'base_data/old_data2.csv'
 
     # Obtenir le bucket spécifié
     bucket = client.get_bucket(bucket_base_data)
@@ -653,7 +616,7 @@ def split_data_to_MySql_db():
             "pymysql",
             user="root",
             password="Tictact0c",
-            db="ebay"
+            db="ebay_test"
         )
         logging.info("Connexion à la base de données réussie")
     except:
@@ -847,4 +810,4 @@ delete_folders_task = PythonOperator(
 get_data_task >> transform_task >> new_data_check_task >> check_for_new_data_task
 check_for_new_data_task >> [new_data_branch, no_new_data_branch]
 no_new_data_branch >> no_new_data_task
-new_data_branch >> data_update_task >> data_split_task >> split_data_to_MySql_db_task >> delete_folders_task
+new_data_branch >> data_update_task >> data_split_task >> split_data_to_MySql_db_task 
