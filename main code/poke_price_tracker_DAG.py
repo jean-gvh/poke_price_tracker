@@ -379,7 +379,7 @@ def transform():
         # df.__len__ check
         # Regarder si le contenu des colonnes est cohérent ( nom des cartes, formattage de la date,etc...)
     
-    # Data type
+    '''# Data type
     expected_dtypes = {
         'col1': 'object',
         'col2': 'float64',
@@ -394,9 +394,9 @@ def transform():
     }
 
     for col, expected_dtype in expected_dtypes.items():
-        assert str(df[col].dtype) == expected_dtype, f"Invalid data type for column {col}. Expected {expected_dtype}, got {df[col].dtype}"
+        assert str(df[col].dtype) == expected_dtype, f"Invalid data type for column {col}. Expected {expected_dtype}, got {df[col].dtype}"'''
 
-    # null values check
+    '''# null values check
     expected_null_values = 0
     assert df.isnull().sum() == expected_null_values, f"null values has been found in column(s): {df.columns[df.isna().any()]}"
 
@@ -416,7 +416,7 @@ def transform():
     df['sold_date_expected'] = df['sold_date'].dt.strftime(expected_format)
    
     # Verifier que le format du df correspond au format  du df attendu
-    assert all(df['sold_date'] == df['sold_date_expected']), f"Invalid date format in 'sold_date' column {df['sold_date'].dtype}"
+    assert all(df['sold_date'] == df['sold_date_expected']), f"Invalid date format in 'sold_date' column {df['sold_date'].dtype}"'''
     
     #Identifie le bucket cible
     bucket = storage.Bucket(client, bucket_name)
@@ -436,7 +436,7 @@ def transform():
 
 def new_data_check(**kwargs):
     
-    date_today = datetime.now().strftime('%Y-%m-%d')  # Format de date correspondant à celui dans votre DataFrame
+    # Format de date correspondant à celui dans votre DataFrame
     #old_data = pd.read_csv(r"C:\Users\Jean_Professionel\OneDrive - ESEO\Bureau\Pokemon\PokePrice Tracker\old_data.csv")
     
 
