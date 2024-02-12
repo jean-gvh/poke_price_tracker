@@ -291,6 +291,9 @@ def transform():
     if not df.empty:
         df = df.dropna(subset=['sold_date'])
         df = df.reset_index(drop=True)
+        df = df.loc[df['sold_location'].isnull()]
+
+    df.drop(columns=['sold_location','bids_numbers'],inplace=True)
 
     # EDIT NE pas drop la colonne simplement séparé la colonne en 3 colonnes par les espaces puis ne garder que la 1 èere colonne du split qui contient le nom du vendeur
     # df.drop(columns='vendor_name',inplace=True)
@@ -312,10 +315,7 @@ def transform():
     df['vendor_ratings'] = df['vendor_ratings'].str.replace(',','.').astype(float)
     
     
-    # Drop & Renommage de la colonne 'bids_numbers' pour garder une cohérence d'odre des colonnes
-    df['bids_numbers2'] = df['bids_numbers']
-    df.drop(columns='bids_numbers',inplace=True)
-    df.rename(columns={'bids_numbers2':'bids_numbers'},inplace=True)
+    
   
 
     # Renommez les colonnes résultantes
@@ -360,14 +360,6 @@ def transform():
     df = df.loc[df['sold_location'].isnull()]
 
     df.drop(columns='sold_location',inplace=True)
-
-    
-
-    # Remplacement des "None" ie pas d'enchères par "0" puis conversion en int
-
-    df['bids_numbers'] = df['bids_numbers'].fillna(0)
-    df['bids_numbers'] = pd.to_numeric(df['bids_numbers'], errors='coerce')
-    df['bids_numbers'] = df['bids_numbers'].fillna(0)
 
     df.dropna(inplace=True)
 
