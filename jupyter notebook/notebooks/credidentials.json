@@ -1,9 +1,0 @@
-{
-    "database_info": {
-        "host": "fiery-iridium-412613:europe-west9:poke-price-tracker-db",
-        "user": "root",
-        "password": "Tictact0c",
-        "db": "ebay"
-    },
-    "driver": "pymysql"
-}
